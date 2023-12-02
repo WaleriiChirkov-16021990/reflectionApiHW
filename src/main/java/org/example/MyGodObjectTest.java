@@ -39,9 +39,21 @@ public class MyGodObjectTest {
 
     @Test
     public void testOut(){
-        System.out.println("MyGodObjectTest testOut successful");
+        System.out.println("MyGodObjectTest testOut successful order default");
     }
 
+    @Test(order = 1)
+    public void testOut1(){
+        System.out.println("MyGodObjectTest testOut successful order 1");
+    }
+    @Test(order = 2)
+    public void testOut2(){
+        System.out.println("MyGodObjectTest testOut successful order 2");
+    }
+    @Test(order = -5)
+    public void testOut_5(){
+        System.out.println("MyGodObjectTest testOut successful order -5");
+    }
     @AfterEach
     public void after(){
 //        Field declaredField;

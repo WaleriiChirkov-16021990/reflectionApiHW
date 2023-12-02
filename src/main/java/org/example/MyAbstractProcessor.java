@@ -7,6 +7,9 @@ import org.example.myAnnotations.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MyAbstractProcessor {
     public static void processObject(Class<?> object) {
@@ -29,14 +32,25 @@ public class MyAbstractProcessor {
                 runTest(method, objectByReflection);
             }
         }
-
+        List<Method> methodsTestList = new ArrayList<Method>();
         for (Method method : object.getDeclaredMethods()) {
             if (method.isAnnotationPresent(Test.class)) {
-                checkTestMethod(method);
-                method.setAccessible(true);
-                runTest(method, objectByReflection);
+                methodsTestList.add(method);
+//                checkTestMethod(method);
+//                method.setAccessible(true);
+//                runTest(method, objectByReflection);
             }
         }
+        methodsTestList = methodsTestList.stream().sorted((a, b) -> a.getDeclaredAnnotation(Test.class).order() - b.getDeclaredAnnotation(Test.class).order()).collect(Collectors.toList());
+
+        for (Method method :
+                methodsTestList) {
+            checkTestMethod(method);
+            method.setAccessible(true);
+            runTest(method, objectByReflection);
+        }
+
+
         for (Method method : object.getDeclaredMethods()) {
             if (method.isAnnotationPresent(AfterEach.class)) {
                 checkVoidMethod(method);
@@ -47,7 +61,7 @@ public class MyAbstractProcessor {
     }
 
     private static void checkVoidMethod(Method method) {
-        if (!method.getReturnType().isAssignableFrom(void.class) && method.getParameterCount() != 0) {
+        if (!method.getReturnType().isAssignableFrom(Void.class) && method.getParameterCount() != 0) {
             throw new IllegalArgumentException("Method " + method.getName() + " should be a valid Void method and not have argument");
         }
     }
@@ -58,6 +72,7 @@ public class MyAbstractProcessor {
             throw new IllegalArgumentException("Method " + method.getName() + " should be a valid Void method and not have argument");
         }
     }
+
     private static void runTest(Method method, Object object) {
         try {
             method.setAccessible(true);

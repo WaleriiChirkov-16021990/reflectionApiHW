@@ -17,9 +17,7 @@ public class MyGodObject {
 
     @BeforeEach
     public void before(){
-//        this.myObject = (MyGodObject) Class.forName("MyGodObject").getConstructor(String.class).newInstance("Zeus");
         System.out.println("MyGodObject before");
-
     }
 
     @Test
@@ -30,13 +28,7 @@ public class MyGodObject {
 
     @AfterEach
     public void after() throws Exception {
-//        Field declaredField = Class.class.getDeclaredField("name");
-//        declaredField.setAccessible(true);
-//        declaredField.set(this.myObject, "Goddess Guerra");
-//        System.out.println(this.myObject.getName());
-
         System.out.println("After");
-
     }
 
     public String getLightning() {
