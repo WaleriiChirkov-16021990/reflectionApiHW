@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.myAnnotations.AfterEach;
 import org.example.myAnnotations.BeforeEach;
+import org.example.myAnnotations.Skip;
 import org.example.myAnnotations.Test;
 
 import java.lang.reflect.Constructor;
@@ -42,6 +43,7 @@ public class MyGodObjectTest {
         System.out.println("MyGodObjectTest testOut successful order default");
     }
 
+    @Skip
     @Test(order = 1)
     public void testOut1(){
         System.out.println("MyGodObjectTest testOut successful order 1");
@@ -50,6 +52,7 @@ public class MyGodObjectTest {
     public void testOut2(){
         System.out.println("MyGodObjectTest testOut successful order 2");
     }
+
     @Test(order = -5)
     public void testOut_5(){
         System.out.println("MyGodObjectTest testOut successful order -5");

@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.myAnnotations.AfterEach;
 import org.example.myAnnotations.BeforeEach;
+import org.example.myAnnotations.Skip;
 import org.example.myAnnotations.Test;
 
 import java.lang.reflect.Constructor;
@@ -26,7 +27,7 @@ public class MyAbstractProcessor {
 
 
         for (Method method : object.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(BeforeEach.class)) {
+            if (method.isAnnotationPresent(BeforeEach.class) && !(method.isAnnotationPresent(Skip.class))) {
                 checkVoidMethod(method);
                 method.setAccessible(true);
                 runTest(method, objectByReflection);
@@ -34,7 +35,7 @@ public class MyAbstractProcessor {
         }
         List<Method> methodsTestList = new ArrayList<Method>();
         for (Method method : object.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Test.class)) {
+            if (method.isAnnotationPresent(Test.class) && !(method.isAnnotationPresent(Skip.class))) {
                 methodsTestList.add(method);
 //                checkTestMethod(method);
 //                method.setAccessible(true);
@@ -52,7 +53,7 @@ public class MyAbstractProcessor {
 
 
         for (Method method : object.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(AfterEach.class)) {
+            if (method.isAnnotationPresent(AfterEach.class) && !(method.isAnnotationPresent(Skip.class))) {
                 checkVoidMethod(method);
                 method.setAccessible(true);
                 runTest(method, objectByReflection);
